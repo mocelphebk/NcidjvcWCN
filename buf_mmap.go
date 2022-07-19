@@ -3,7 +3,6 @@
 // license that can be found in the LICENSE file.
 
 //go:build darwin || dragonfly || freebsd || linux || netbsd || openbsd
-// +build darwin dragonfly freebsd linux netbsd openbsd
 
 package bio
 
@@ -29,12 +28,10 @@ var mmapLimit int32 = 1<<31 - 1
 func init() {
 	// Linux is the only practically concerning OS.
 	if runtime.GOOS == "linux" {
-		mmapLimit = 30000
 	}
 }
 
 func (r *Reader) sliceOS(length uint64) ([]byte, bool) {
-	// For small slices, don't bother with the overhead of a
 	// mapping, especially since we have no way to unmap it.
 	const threshold = 16 << 10
 	if length < threshold {
